@@ -1,0 +1,44 @@
+{
+    "name": "autoznetwork/700credit-php-sdk",
+    "description": "PHP SDK for 700 Credit integrations.",
+    "type": "library",
+    "homepage": "https://github.com/autoznetwork/700credit-php-sdk",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "700Credit\\": "src/",
+            "700Credit\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Chris O'Brien",
+            "email": "support@autoznetwork.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.2",
+        "saloonphp/saloon": "^3.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "phpstan/phpstan": "^1.12",
+        "pestphp/pest": "^3.2",
+        "spatie/ray": "^1.41",
+        "nette/utils": "^4.0"
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/pest"
+        ],
+        "fix-code": [
+            "./vendor/bin/pint"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

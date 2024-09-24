@@ -1,0 +1,8 @@
+.idea
+composer.lock
+vendor
+.php-cs-fixer.cache
+.phpunit.result.cache
+tests/cache
+phpstan-results.sarif
+.DS_Store

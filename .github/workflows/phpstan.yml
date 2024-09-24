@@ -1,0 +1,40 @@
+name: Code analysis
+
+on: [ push, pull_request ]
+
+jobs:
+  phpstan:
+    name: Run Code Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # for checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: json, mbstring
+          coverage: pcov
+
+      - name: Validate Composer
+        run: composer validate
+
+      - name: Authorize And Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+
+      - name: Run PHPStan
+        continue-on-error: true
+        run: ./vendor/bin/phpstan analyze --error-format=sarif > phpstan-results.sarif
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: phpstan-results.sarif
+          wait-for-processing: true
