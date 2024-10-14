@@ -17,8 +17,8 @@ class SarifErrorFormatter implements ErrorFormatter
 
     public function __construct(
         private RelativePathHelper $relativePathHelper,
-        private readonly string    $currentWorkingDirectory,
-        private readonly bool      $pretty,
+        private readonly string $currentWorkingDirectory,
+        private readonly bool $pretty,
     ) {}
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
