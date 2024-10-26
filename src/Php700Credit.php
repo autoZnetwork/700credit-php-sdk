@@ -101,6 +101,10 @@ class Php700Credit extends Connector implements HasBody
             'PROCESS' => 'PCCCREDIT',
         ];
 
+        if ($this->bypassDuplicateCheck) {
+            $body['APP_MODIFIED'] = 'Y';
+        }
+
         if (count($this->bureaus) > 0) {
             $bureaus = array_map(fn (Bureau $bureau) => $bureau->value, $this->bureaus);
             $body['BUREAUS'] = implode(':', $bureaus);
