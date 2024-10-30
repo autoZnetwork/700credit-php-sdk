@@ -7,7 +7,7 @@ final class Config
     /**
      * Production API URL
      */
-    public static string $productionUrl = 'https://www.700CreditSolution.com/XCRS/Service.aspx';
+    public static string $productionUrl = 'https://www.700Dealer.com/XCRS/Service.aspx';
 
     /**
      * Test API URL

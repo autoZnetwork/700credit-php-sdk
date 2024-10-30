@@ -2,51 +2,36 @@
 
 namespace Autoznetwork\Php700Credit\Requests;
 
-use Autoznetwork\Php700Credit\Classes\Consumer;
+use Autoznetwork\Php700Credit\Classes\Consumer\Consumer;
+use Autoznetwork\Php700Credit\Classes\Credentials;
 use Autoznetwork\Php700Credit\Enums\ProductType;
-use Autoznetwork\Php700Credit\Exceptions\ConsumerNotSet;
-use Saloon\Contracts\Body\HasBody;
-use Saloon\Enums\Method;
-use Saloon\Http\Request;
-use Saloon\Traits\Body\HasFormBody;
+use Autoznetwork\Php700Credit\Traits\RequiresPrequalifyCredentials;
 
-class PreQualifyRequest extends Request implements HasBody
+class PreQualifyRequest extends AbstractRequest
 {
-    use HasFormBody;
+    use RequiresPrequalifyCredentials;
 
-    protected Method $method = Method::POST;
+    protected ProductType $productType = ProductType::PRE_QUALIFY;
 
-    public function __construct(public ?Consumer $consumer)
-    {
-        $this->doChecks();
-    }
+    protected array $requiredFields = [
+        'NAME',
+        'ADDRESS',
+        'CITY',
+        'STATE',
+        'ZIP',
+    ];
 
-    public function resolveEndpoint(): string
-    {
-        return '';
-    }
+    public function __construct(
+        public Credentials $credentials,
+        public ?Consumer $consumer,
+    ) {}
 
     protected function defaultBody(): array
     {
-        $address = $this->consumer->address;
-
-        return [
+        return array_filter(array_merge([
+            'ACCOUNT' => $this->credentials->preQualifyAccount,
+            'PASSWD' => $this->credentials->preQualifyPassword,
             'PRODUCT' => ProductType::PRE_QUALIFY->value,
-            'NAME' => $this->consumer->name,
-            'ADDRESS' => $address->street,
-            'CITY' => $address->city,
-            'STATE' => $address->state,
-            'ZIP' => $address->zip,
-        ];
-    }
-
-    /**
-     * @throws ConsumerNotSet
-     */
-    protected function doChecks(): void
-    {
-        if (is_null($this->consumer)) {
-            throw new ConsumerNotSet;
-        }
+        ], $this->consumer->toArray()));
     }
 }

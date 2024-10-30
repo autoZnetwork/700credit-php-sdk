@@ -1,40 +1,25 @@
 <?php
 
-namespace Autoznetwork\Php700Credit\Classes;
+namespace Autoznetwork\Php700Credit\Classes\Consumer;
 
 use Autoznetwork\Php700Credit\Exceptions\Php700CreditRequestException;
 
-class ConsumerAddress
+class Address
 {
-    public string $street;
-
-    public string $city;
-
-    public string $state;
-
-    public string $zip;
-
     public function __construct(
-        string $address,
-        string $city,
-        string $state,
-        string|int $zip,
+        public string $street,
+        public string $city,
+        public string $state,
+        public string|int $zip,
+        public ?int $timeAtAddress = null,
     ) {
-        $this->formatAddress($address, $city, $state, $zip);
+        $this->format();
     }
 
-    public function formatAddress(
-        string $street,
-        string $city,
-        string $state,
-        string|int $zip,
-    ): self {
-        $this->street = $street;
-        $this->city = $city;
-        $this->state = $this->formatState($state);
-        $this->zip = $this->formatZip($zip);
-
-        return $this;
+    protected function format(): void
+    {
+        $this->state = $this->formatState($this->state);
+        $this->zip = $this->formatZip($this->zip);
     }
 
     /**
