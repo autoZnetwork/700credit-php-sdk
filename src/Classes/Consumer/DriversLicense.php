@@ -62,7 +62,7 @@ class DriversLicense
 
         if (! $patternFound) {
             throw new Php700CreditRequestException(
-                'Expiration must match one of the following patterns: '.implode(',', array_keys($patterns))
+                'Expiration must match one of the following patterns: '.implode(', ', array_keys($patterns))
             );
         }
 
