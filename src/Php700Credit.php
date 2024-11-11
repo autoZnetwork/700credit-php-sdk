@@ -191,7 +191,7 @@ class Php700Credit extends Connector implements HasBody
             return $res;
         }
 
-        $report = $res->value('XML_Report')->first();
+        $report = $res->value('Results')->first();
 
         if (is_null($report)) {
             throw new InvalidResponse('Invalid prequalify response.');
